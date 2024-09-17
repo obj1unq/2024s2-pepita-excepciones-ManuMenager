@@ -6,7 +6,14 @@ object pepita {
 	}
 	
 	method volar(distancia) {
+		self.validarVolar(distancia)
 		energia = energia - 10 - distancia
+	}
+
+	method validarVolar(distancia) {
+		if (energia < (10 + distancia)) {
+			self.error("La energía de " + self + "no es suficiente para volar " + distancia + " de distancia")
+		}
 	}
 		
 	method energia() {
@@ -54,9 +61,15 @@ object pepon {
 	}
 		
 	method volar(distancia) {
+		self.validarVolar(distancia)
 		energia = energia - 20 - 2*distancia
 	}
 	
+	method validarVolar(distancia) {
+		if (energia < (20 + 2*distancia)) {
+			self.error("La energía de " + self + "no es suficiente para volar " + distancia + " de distancia")
+		}
+	}
 }
 
 object roque {
@@ -74,3 +87,18 @@ object roque {
 	}
 }
 
+object milena {
+	
+	const aves = #{pepon, pepita}
+
+	method movilizar(distancia) {
+		self.validarMovilizar(distancia)
+		aves.map({ave => ave.volar(distancia)})
+	}
+
+	method validarMovilizar(distancia) {
+		if (pepon.energia() < (20 + 2*distancia) || pepita.energia() < (10 + distancia)) {
+			self.error("La energía de las aves no es suficiente para que se movilizen a " + distancia + " de distancia")
+		}
+	}
+}
